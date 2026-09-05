@@ -4,7 +4,7 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] protected int maxHealth = 3;
     [SerializeField] protected int damage = 1;
-    protected int currentHealth;
+    [SerializeField] protected int currentHealth;
 
     protected virtual void Start()
     {

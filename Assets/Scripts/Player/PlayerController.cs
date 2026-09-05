@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     PlayerInput playerinput;
     CharacterController controller;
     Animator animator;
+  
     
     //variables in player input values
     Vector2 currentaMovementInput;  
@@ -20,7 +21,7 @@ public class PlayerController : MonoBehaviour
     bool isMouseOrKeyboard { get { return playerinput.PlayerController.enabled; } }
     bool isMovementPressed;
     bool isAttacking;
-    float RrotationFactorPerFrame = 0.15f;
+
 
     //Movement variables
 
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
         playerinput = new PlayerInput();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-      
+        
 
         //player inputs callbacks
         playerinput.PlayerController.Move.started += onMovementInput;
@@ -131,6 +132,7 @@ public class PlayerController : MonoBehaviour
         //}
     }
 
+   
     void Move()
     {
       
@@ -166,6 +168,7 @@ public class PlayerController : MonoBehaviour
         if(isAttacking)
         {
             animator.SetBool("isAttacking", true);
+          
         }else { animator.SetBool("isAttacking", false); }
     }
 

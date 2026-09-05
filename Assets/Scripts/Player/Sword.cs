@@ -1,21 +1,21 @@
-using UnityEngine;
 using System.Collections.Generic;
+
+using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
 
-    List<IDamageable> alreadyHit = new List<IDamageable>();
     private void OnTriggerEnter(Collider other)
     {
+        
         IDamageable damageable = other.GetComponent<IDamageable>();
-
-        if (damageable != null && !alreadyHit.Contains(damageable ))
+        
+        if (damageable != null )
         {
-          
             damageable.TakeDamage(1);
-            alreadyHit.Add(damageable );
-        }    
+        }
+
     }
 
-   
+
 }
