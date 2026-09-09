@@ -1,31 +1,16 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour
 {
-    [SerializeField] protected int maxHealth = 3;
-    [SerializeField] protected int damage = 1;
-    [SerializeField] protected int currentHealth;
-
-    protected virtual void Start()
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
-        currentHealth = maxHealth;
+        
     }
 
-
-    public void TakeDamage(int dmg)
+    // Update is called once per frame
+    void Update()
     {
-        currentHealth-=dmg;
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
-    protected virtual void Die()
-    {
-        Destroy(gameObject);
+        
     }
 }
-
-    

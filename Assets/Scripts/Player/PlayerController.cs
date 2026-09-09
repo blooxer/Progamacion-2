@@ -1,14 +1,17 @@
 
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
-
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.Controls.AxisControl;
 
-public class PlayerController : MonoBehaviour
+
+public class PlayerController :  Character
 {
-    
+
+    // animator hash
+    int isAttackingHash = Animator.StringToHash("isAttacking");
+    int isMoveHash = Animator.StringToHash("isMove");
+    int isJumpHash = Animator.StringToHash("isJumping");
+
     // references variables
     PlayerInput playerinput;
     CharacterController controller;
@@ -17,21 +20,36 @@ public class PlayerController : MonoBehaviour
     
     //variables in player input values
     Vector2 currentaMovementInput;  
-    Vector3 currentbMovement;
+    Vector3 currentMovement;
     bool isMouseOrKeyboard { get { return playerinput.PlayerController.enabled; } }
     bool isMovementPressed;
     bool isAttacking;
 
+    //gravity variables
+    float groundedGravity = -0.05f;
+    float gravityAir = -9.8f;
 
     //Movement variables
-
-    [SerializeField] float speed = 3f;
+    [Header("Movement variables")]
+    [SerializeField] float speed = 6f;
     float targetRotation = 0f; 
     float rotationVel;
     [SerializeField] float rotationSmootTime = 0.12f; // bt 0.0-0.3
- 
+    // Jump Variables   
+       [Header("Jump Variables")]
+    bool isJumpPressed = false;
+    float initialJumpVelocity;
+    float maxJumpHeight = 2.0f;
+    float maxJumpTime = 0.6f;
+    float fallMultipler = 2.50f;
+    bool isJumping = false;
+  
+    
+    //Life Variables
+
 
     // camera variables
+    [Header("Camera variables")]
     [SerializeField]  Camera cam;
     bool lockCameraPosition = false;
      float _cinemachineTargetYaw;
@@ -58,17 +76,78 @@ public class PlayerController : MonoBehaviour
         playerinput.PlayerController.Look.started += onLookCamInput;
         playerinput.PlayerController.Look.canceled += onLookCamInput;
         playerinput.PlayerController.Look.performed += onLookCamInput;
+        playerinput.PlayerController.Jump.started += onJumpInput;
+        playerinput.PlayerController.Jump.canceled += onJumpInput;
+
+        setupJumpVariables();
     }
     private void Start()
     {
+        currentHealth = maxHealth;
         cinemachineCameraTarget = GameObject.FindGameObjectWithTag("CinemachineCameraTarget");
         _cinemachineTargetYaw = cinemachineCameraTarget.transform.rotation.eulerAngles.y;
      
     }
+    void setupJumpVariables()
+    {
+        float timeToApex = maxJumpTime / 2; // top time in parabolla (simmetrical jump)
+        gravityAir = (-2 * maxJumpHeight) / MathF.Pow(timeToApex, 2); // calculate the gravity based in the maxjump height and time to apex
+        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
+    }
+    void HandleJump()
+    {
+        if (!isJumping && controller.isGrounded && isJumpPressed)
+        {
+            isJumping = true;
+            animator.SetBool(isJumpHash, true);
+            currentMovement.y = initialJumpVelocity;
+        }else if(!isJumpPressed && isJumping && controller.isGrounded || isJumpPressed && !isJumping )
+        {
+            isJumping= false;
+            
+        }
+    }
+   void HandleGravity()
+    {
+        bool isFalling = currentMovement.y <= 0  || !isJumpPressed;
+       
+        if(controller.isGrounded)
+        {
+           
+
+            currentMovement.y = groundedGravity;
+            animator.SetBool(isJumpHash, false);
+            
+
+        }
+        else if (isFalling )
+        {
+            float previousYVel = currentMovement.y;
+            float actualYVel = currentMovement.y + (gravityAir * fallMultipler * Time.deltaTime);
+            float nextYVel = MathF.Max((previousYVel + actualYVel) * .5f,  -20.0f);
+            currentMovement.y = nextYVel;
+          
+        }
+        else 
+        {
+            float previousYVel = currentMovement.y;
+            float actualYVel = currentMovement.y + (gravityAir * Time.deltaTime);
+            float nextYVel = (previousYVel + actualYVel) * .5f;
+            currentMovement.y = nextYVel;
+        
+            // Velcity Verlet for framme rate independet in jump or fall moment
+        }
+   
+      
+    }
     void Update()
     {
-        handleAnimation();
+        HandleGravity();
+        HandleJump();
         Move();
+      
+        handleAnimation();
+ 
     }
     private void LateUpdate()
     {
@@ -80,7 +159,10 @@ public class PlayerController : MonoBehaviour
     {
         isAttacking = context.ReadValueAsButton();
     }
-
+    private void onJumpInput(InputAction.CallbackContext context)
+    {
+        isJumpPressed = context.ReadValueAsButton();
+    }
     void onLookCamInput(InputAction.CallbackContext context)
     {
         movementCameraBasedInput = context.ReadValue<Vector2>();
@@ -89,8 +171,8 @@ public class PlayerController : MonoBehaviour
     void onMovementInput(InputAction.CallbackContext context)
     {
         currentaMovementInput = context.ReadValue<Vector2>();
-        currentbMovement.x = currentaMovementInput.x;
-        currentbMovement.z = currentaMovementInput.y ;
+        currentMovement.x = currentaMovementInput.x;
+        currentMovement.z = currentaMovementInput.y ;
         isMovementPressed = currentaMovementInput.x != 0 || currentaMovementInput.y != 0;
 
         
@@ -118,9 +200,9 @@ public class PlayerController : MonoBehaviour
 
         //Vector3 positionToLookAt;
         
-        //positionToLookAt.x = currentbMovement.x;
+        //positionToLookAt.x = currentMovement.x;
         //positionToLookAt.y = 0.0f;
-        //positionToLookAt.z = currentbMovement.z;
+        //positionToLookAt.z = currentMovement.z;
         
         //Quaternion currentRotation = transform.rotation;
 
@@ -140,36 +222,40 @@ public class PlayerController : MonoBehaviour
 
         if (currentaMovementInput != Vector2.zero)
         {
-            targetRotation = Mathf.Atan2(currentbMovement.x, currentbMovement.z) * Mathf.Rad2Deg + cam.transform.eulerAngles.y; // transform the movement into radians and then make them degrees and base them on the relative movement of the camera
+            targetRotation = Mathf.Atan2(currentMovement.x, currentMovement.z) * Mathf.Rad2Deg + cam.transform.eulerAngles.y; // transform the movement into radians and then make them degrees and base them on the relative movement of the camera
 
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVel, rotationSmootTime); //Smoot rotation
 
             transform.rotation = Quaternion.Euler(0f, rotation, 0f);
             Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
-            controller.Move(targetDirection.normalized * (speed * Time.deltaTime));
+            controller.Move(targetDirection.normalized * (speed * Time.deltaTime) );
         }
+        controller.Move(currentMovement * Time.deltaTime);
     }
 
     void handleAnimation()
     {
         //get values from animator
-        bool isRunning = animator.GetBool("IsMove");
+        bool isRunning = animator.GetBool(isMoveHash);
         //bool isAttack = animator.GetBool("isAttack");
 
         if(isMovementPressed && ! isRunning)
         {
-            animator.SetBool("IsMove", true);
+            animator.SetBool(isMoveHash, true);
+        
 
-        }else if (!isMovementPressed && isRunning)
+        }
+        else if (!isMovementPressed && isRunning)
         {
-            animator.SetBool("IsMove", false);
+            animator.SetBool(isMoveHash, false);
         }
 
-        if(isAttacking)
+        if(isAttacking && controller.isGrounded)
         {
-            animator.SetBool("isAttacking", true);
-          
-        }else { animator.SetBool("isAttacking", false); }
+            animator.SetBool(isAttackingHash, true);
+
+        }
+        else { animator.SetBool(isAttackingHash, false); }
     }
 
     private void OnEnable()
@@ -180,6 +266,9 @@ public class PlayerController : MonoBehaviour
     {
         playerinput.PlayerController.Disable();
     }
+
+
+   
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
         // Turn Around in degrees 
@@ -187,4 +276,24 @@ public class PlayerController : MonoBehaviour
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
+
+    //public void TakeDamage(int dmg)
+    //{
+    //    currentHealth -= dmg;
+
+    //    Debug.Log("Player recibió daño. Vida actual: " + currentHealth + "Daño recibido " + dmg);
+
+    //    if (currentHealth <= 0)
+    //    {
+    //        Die();
+    //    }
+    //}
+
+    //void Die()
+    //{
+    //    Debug.Log("Player murió");
+    //}
+
+
+
 }

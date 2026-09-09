@@ -17,7 +17,72 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'EXPERIMENTAL_Medium_Transform' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'hips' has scale animation
+      that will be discarded.\n\t'spine' has scale animation that will be discarded.\n\t'chest'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'chest'
+      has scale animation that will be discarded.\n\t'upperarm.l' has translation
+      animation that will be discarded.\n\t'upperarm.l' has scale animation that
+      will be discarded.\n\t'lowerarm.l' has scale animation that will be discarded.\n\t'upperarm.r'
+      has translation animation that will be discarded.\n\t'upperarm.r' has scale
+      animation that will be discarded.\n\t'lowerarm.r' has scale animation that
+      will be discarded.\n\t'head' has scale animation that will be discarded.\n\t'upperleg.l'
+      has translation animation that will be discarded.\n\t'upperleg.l' has scale
+      animation that will be discarded.\n\t'upperleg.r' has translation animation
+      that will be discarded.\n\t'upperleg.r' has scale animation that will be discarded.\n\nClip
+      'Skeletons_Awaken_Floor' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'chest'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'upperarm.l'
+      has translation animation that will be discarded.\n\t'upperarm.r' has translation
+      animation that will be discarded.\n\t'upperleg.l' has translation animation
+      that will be discarded.\n\t'upperleg.r' has translation animation that will
+      be discarded.\n\nClip 'Skeletons_Awaken_Floor_Long' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'chest' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'upperarm.l' has translation
+      animation that will be discarded.\n\t'upperarm.r' has translation animation
+      that will be discarded.\n\t'upperleg.l' has translation animation that will
+      be discarded.\n\t'upperleg.r' has translation animation that will be discarded.\n\nClip
+      'Skeletons_Awaken_Standing' has import animation warnings that might lower
+      retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting
+      quality.\n\t'chest' is inbetween humanoid transforms and has rotation animation
+      that will be discarded.\n\t'upperarm.l' has translation animation that will
+      be discarded.\n\t'upperarm.r' has translation animation that will be discarded.\n\t'upperleg.r'
+      has translation animation that will be discarded.\n\nClip 'Skeletons_Death'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'chest'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'upperarm.l'
+      has translation animation that will be discarded.\n\t'upperleg.r' has translation
+      animation that will be discarded.\n\nClip 'Skeletons_Death_Resurrect' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'chest' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'upperarm.l'
+      has translation animation that will be discarded.\n\t'upperarm.r' has translation
+      animation that will be discarded.\n\t'upperleg.r' has translation animation
+      that will be discarded.\n\nClip 'Skeletons_Idle' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'chest' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\nClip 'Skeletons_Spawn_Ground'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'chest'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'upperarm.l'
+      has translation animation that will be discarded.\n\t'upperarm.r' has translation
+      animation that will be discarded.\n\t'upperleg.l' has translation animation
+      that will be discarded.\n\nClip 'Skeletons_Taunt' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'chest' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'upperleg.r' has translation
+      animation that will be discarded.\n\nClip 'Skeletons_Taunt_Longer' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'chest' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'upperarm.r'
+      has translation animation that will be discarded.\n\t'upperleg.l' has translation
+      animation that will be discarded.\n\t'upperleg.r' has translation animation
+      that will be discarded.\n\nClip 'Skeletons_Walking' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'upperleg.l' has translation animation that
+      will be discarded.\n\t'upperleg.r' has translation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
