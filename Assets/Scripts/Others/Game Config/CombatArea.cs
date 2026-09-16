@@ -1,25 +1,28 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CombatArea : MonoBehaviour
 {
-    [SerializeField] List<BasicEnemiy> enemies = new List<BasicEnemiy>();
+    [SerializeField] List<Enemy> enemies = new List<Enemy>();
     [SerializeField] List<GameObject> barriers = new List<GameObject>();
 
     bool combatStarted = false;
 
-
+   
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
         if (player != null && !combatStarted)
         {
             StartCombat();
+       
         }
     }
 
     private void Start()
     {
+        enemies.AddRange(GetComponentsInChildren<Enemy>());
         foreach (GameObject barrier in barriers)
         {
             barrier.SetActive(false);
@@ -35,9 +38,9 @@ public class CombatArea : MonoBehaviour
         combatStarted = true;
         Debug.Log("Enemigos restantes: " + enemies.Count);
 
-        foreach (BasicEnemiy enemy in enemies)
+        foreach (Enemy enemy in enemies)
         {
-            enemy.OnEnemyDeath += EnemyDefeated;
+            enemy.onEnemyDeath += EnemyDefeated;
         }
 
         foreach (GameObject barrier in barriers)
@@ -55,8 +58,9 @@ public class CombatArea : MonoBehaviour
 
         Debug.Log("¡Área completada!");
     }
-    public void EnemyDefeated(BasicEnemiy enemy)
+    private void EnemyDefeated(Enemy enemy)
     {
+        enemy.onEnemyDeath -= EnemyDefeated;
         enemies.Remove(enemy);
 
         Debug.Log("Enemigos restantes: " + enemies.Count);

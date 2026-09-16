@@ -1,21 +1,11 @@
 using UnityEngine;
 
-public class Sword : MonoBehaviour
+public class Sword : DamageHitbox
 {
-   [SerializeField] int damage = 1;
-    [SerializeField] LayerMask enemyLayer;
-    private void OnTriggerEnter(Collider other)
+    protected override void DealDamage(IDamageable target)
     {
-        
-        IDamageable damageable = other.GetComponent<IDamageable>();
-
-        if ((enemyLayer.value & (1 << other.gameObject.layer)) == 0)
-            return;
-        if (damageable != null )
-        {
-            damageable.TakeDamage(damage);
-        }
-
+        target.TakeDamage(damage);
+        Debug.Log("se hizo " + damage + " a " + target);
     }
 
 
