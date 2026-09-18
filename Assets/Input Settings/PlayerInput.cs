@@ -232,7 +232,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""id"": ""54179727-e02f-4147-bec0-1712d0eb266e"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=300,y=300),StickDeadzone,InvertVector2(invertX=false,invertY=false)"",
+                    ""processors"": ""ScaleVector2(x=1000,y=1000),StickDeadzone,InvertVector2"",
                     ""groups"": """",
                     ""action"": ""Look"",
                     ""isComposite"": false,

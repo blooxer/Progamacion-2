@@ -11,10 +11,15 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.Instance.onGemsChange += UpdateGemText;
-        GameManager.Instance.onLifeChange += UpdateLifeText;
-        UpdateGemText(GameManager.Instance.gems);
-        UpdateLifeText(player.CurrentHealth);
+      
+        if (GameManager.Instance != null)
+        {    GameManager.Instance.onGemsChange += UpdateGemText;
+            GameManager.Instance.onLifeChange += UpdateLifeText;
+            if(textGems != null && textLife != null)
+           { UpdateGemText(GameManager.Instance.gems);
+                UpdateLifeText(player.CurrentHealth);
+            }
+        }
     }
 
     private void UpdateGemText(int gems)
@@ -33,4 +38,23 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.onLifeChange -= UpdateLifeText;
         }
     }
+
+    public void MainMenu()
+    {
+        GameManager.Instance.ChangeScene("MainMenu");
+    }
+    public void LevelOne()
+    {
+        GameManager.Instance.ChangeScene("Level");
+    }
+    public void BossLevel()
+    {
+        GameManager.Instance.ChangeScene("BossLevel");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+  
 }

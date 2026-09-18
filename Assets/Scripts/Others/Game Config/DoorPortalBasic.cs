@@ -1,13 +1,16 @@
+using Unity.VectorGraphics;
 using UnityEngine;
 
-public class DoorPortal : MonoBehaviour
+public class DoorPortalBasic : MonoBehaviour
 {
     public string sceneName;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") && GameManager.Instance.HasEnoughGems())
+        if (other.CompareTag("Player") )
         {
             GameManager.Instance.ChangeScene(sceneName);
-        }else { Debug.Log("Te faltan gemas!"); }
+        }
+      
     }
+
 }

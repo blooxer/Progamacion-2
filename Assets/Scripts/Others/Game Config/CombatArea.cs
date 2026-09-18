@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CombatArea : MonoBehaviour
@@ -28,10 +27,6 @@ public class CombatArea : MonoBehaviour
             barrier.SetActive(false);
         }
        
-    }
-    private void Update()
-    {
-
     }
     void StartCombat()
     {

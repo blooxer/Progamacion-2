@@ -10,6 +10,6 @@ public class MeleeAttackStrategy : IAttackStrategy
         return;
 
         enemyMeele.ExecuteMeleeAttack();
-        Debug.Log(enemy.name + " realiza un ataque melee");
+        //Debug.Log(enemy.name + " realiza un ataque melee");
     }
 }

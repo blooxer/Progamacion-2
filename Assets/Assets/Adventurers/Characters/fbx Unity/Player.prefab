@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 6761968056270698838}
   m_Layer: 6
   m_Name: HurtBox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -294,7 +294,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -1159,14 +1159,14 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
-  m_Height: 2.06
+  m_Radius: 0.34
+  m_Height: 1.3
   m_Direction: 1
   m_Center: {x: 0, y: 1.03, z: 0}
 --- !u!143 &2674236547012483965
@@ -1182,17 +1182,17 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.32
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 1.09, z: 0}
 --- !u!114 &2637702556622861632
 MonoBehaviour:
@@ -1208,8 +1208,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   maxHealth: 3
   currentHealth: 0
+  rayPos: {x: 24.184849, y: 0.07, z: 7.9989586}
+  interactionDistance: 1.2
   speed: 7
-  rotationSmootTime: 0.12
+  rotationSmoothTime: 0.12
   cam: {fileID: 0}
   topClamp: 70
   bottomClamp: -30
@@ -1584,7 +1586,7 @@ GameObject:
   - component: {fileID: 3839592921388777935}
   - component: {fileID: 1947773520478857656}
   - component: {fileID: 3831186659338636398}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HitBox
   m_TagString: Sword
   m_Icon: {fileID: 0}
@@ -1625,8 +1627,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.8105245, y: 1.3379018, z: 0.1554967}
-  m_Center: {x: 0.09883815, y: 0.91994786, z: -0.006645806}
+  m_Size: {x: 1.4927742, y: 1.7894305, z: 0.1554967}
+  m_Center: {x: 0.07604965, y: 1.1457121, z: -0.0066457936}
 --- !u!114 &3831186659338636398
 MonoBehaviour:
   m_ObjectHideFlags: 0

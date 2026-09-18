@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance {  get; private set; }
     public int gems { get; private set; }
 
-    public bool hasDoubleJump { get; private set; }
+    
     public bool isInteract { get; private set; }
     public Action<int> onGemsChange;
     public Action<int> onLifeChange;
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
 
@@ -44,10 +44,7 @@ public class GameManager : MonoBehaviour
         return gems >= 10;
     }
 
-    public void UnlockDoubleJump()
-    {
-        hasDoubleJump = true;
-    }
+   
 
     public void UpdateLife(int life)
     {
@@ -78,9 +75,30 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu" ||
+            scene.name == "LostScene" ||
+            scene.name == "WinScene")
+        {
+            ResetAll();
+        }
+    }
 
     public void ChangeScene(String nameScene)
     {
         SceneManager.LoadScene(nameScene);
+    }
+
+    public void ResetAll()
+    {
+        gems = 0;
+
+        unlockedAbilities.Clear();
+
+        onGemsChange?.Invoke(gems);
+
+        Debug.Log("Progreso reiniciado.");
+
     }
 }
