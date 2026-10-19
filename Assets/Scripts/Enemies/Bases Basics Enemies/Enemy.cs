@@ -132,7 +132,7 @@ public class Enemy : Character
     protected override void Die()
     {
         onEnemyDeath?.Invoke(this);
-        GameManager.Instance.AddGem();
+        //GameManager.Instance.AddGem();
         Destroy(gameObject);
     }
 

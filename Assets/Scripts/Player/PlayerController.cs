@@ -1,5 +1,6 @@
 
 using System;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,7 +18,6 @@ public class PlayerController : Character
     Animator animator;
 
     // interactions var
-    IInteractable currentInteractable;
     [SerializeField] Vector3 rayPos;
     [SerializeField] float interactionDistance = 3f;
 
@@ -36,7 +36,10 @@ public class PlayerController : Character
     [SerializeField] float speed = 6f;
     float targetRotation = 0f;
     float rotationVel;
-    [SerializeField] float rotationSmoothTime = 0.12f; // bt 0.0-0.3
+    [SerializeField] Vector3 groundRay;
+    [SerializeField] float groundDistance = 1f;
+    [SerializeField] float rotationSmoothTime = 0.12f; // bt 0.0f - 0.3f
+    [SerializeField] LayerMask groundMask;
     
     // Jump Variables   
     [Header("Jump Variables")]
@@ -56,7 +59,7 @@ public class PlayerController : Character
     // attack var
 
     bool isAttacking;
-    //bool attackQueued;
+    bool attackQueued = false;
     bool attackRequested;
     int attackNum;
 
@@ -71,6 +74,8 @@ public class PlayerController : Character
     [SerializeField] float bottomClamp = -30.0f; // "How far in degrees can you move the camera down"
     float cameraAngleOverride = 0.0f;
     [SerializeField] GameObject cinemachineCameraTarget;
+
+
 
     protected override void Awake()
     {
@@ -103,6 +108,7 @@ public class PlayerController : Character
 
         currentHealth = maxHealth;
         cinemachineCameraTarget = GameObject.FindGameObjectWithTag("CinemachineCameraTarget");
+      
         _cinemachineTargetYaw = cinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
     }
@@ -128,7 +134,7 @@ public class PlayerController : Character
         if (controller.isGrounded)
         {
             jumpUsed = 0;
-            //isJumping = false;
+           
         }
 
 
@@ -164,6 +170,7 @@ public class PlayerController : Character
         if (controller.isGrounded /*|| currentMovement.y == groundedGravity*/)
         {
             currentMovement.y = groundedGravity;
+            
         }
         else if (isFalling)
         {
@@ -171,7 +178,7 @@ public class PlayerController : Character
             float actualYVel = currentMovement.y + (gravityAir * fallMultipler * Time.deltaTime);
             float nextYVel = MathF.Max((previousYVel + actualYVel) * .5f, -20.0f);
             currentMovement.y = nextYVel;
-
+            
         }
         else
         {
@@ -281,6 +288,8 @@ public class PlayerController : Character
 
         //    transform.rotation = Quaternion.Slerp(currentRotation,targetRotation, RrotationFactorPerFrame);
         //}
+        
+
     }
 
 
@@ -312,8 +321,6 @@ public class PlayerController : Character
         if (isMovementPressed && !isRunning)
         {
             animator.SetBool(isMoveHash, true);
-
-
         }
         else if (!isMovementPressed && isRunning)
         {
@@ -329,11 +336,21 @@ public class PlayerController : Character
         //}
         //else { animator.SetBool(isAttackingHash, false); }
 
-        if (controller.isGrounded)
+        //if (controller.isGrounded)
+        //{
+        //    animator.SetBool(isJumpHash, false);
+        //}
+        //else { animator.SetBool(isJumpHash, true); }
+
+        Ray ray = new Ray(new Vector3(transform.position.x,cinemachineCameraTarget.transform.position.y,transform.position.z), transform.up * -1);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, groundDistance) /*|| controller.isGrounded*/)
         {
+           
             animator.SetBool(isJumpHash, false);
         }
         else { animator.SetBool(isJumpHash, true); }
+       
     }
     void handleAttack()
     {
@@ -382,30 +399,20 @@ public class PlayerController : Character
         GameManager.Instance.UpdateLife(currentHealth);
 
     }
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        GameManager.Instance.UpdateLife(currentHealth);
+    }
     protected override void Die()
     {
        
         GameManager.Instance.ChangeScene("LostScene");
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    IInteractable interactable = other.GetComponent<IInteractable>();
-
-    //    if (interactable != null)
-    //    {
-    //        currentInteractable = interactable;
-    //    }
-    //}
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    IInteractable interactable = other.GetComponent<IInteractable>();
-
-    //    if (interactable != null && currentInteractable == interactable)
-    //    {
-    //        currentInteractable = null;
-    //    }
-    //}
+  
 
     public void AttackAnimationFinished()
     {
@@ -421,12 +428,12 @@ public class PlayerController : Character
     }
     private void OnDrawGizmos()
     {
+        // interact Ray
         Gizmos.color = Color.yellow;
-
         Vector3 origin = new Vector3(transform.position.x,rayPos.y,transform.position.z);
         rayPos = origin;
         Vector3 direction = transform.forward;
-
+    
         Gizmos.DrawLine(
             origin,
             origin + direction * interactionDistance
@@ -435,6 +442,17 @@ public class PlayerController : Character
         Gizmos.DrawSphere(
             origin + direction * interactionDistance,
             0.05f
+        );
+
+        // ground Ray
+        Gizmos.color = Color.red;
+        Vector3 originGround = new Vector3(transform.position.x, cinemachineCameraTarget.transform.position.y, transform.position.z);
+        groundRay = originGround;
+        Vector3 directionGround = transform.up * -1;
+
+        Gizmos.DrawLine(
+            originGround,
+            originGround + directionGround * groundDistance
         );
     }
 

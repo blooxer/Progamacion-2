@@ -5,8 +5,8 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+  - enabled: 0
+    path: Assets/Scenes/MainMenuTest.unity
     guid: b9388edd0c6763d4281d670effecd96e
   - enabled: 1
     path: Assets/Scenes/Level.unity
@@ -23,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WinScene.unity
     guid: 4eefe70fa60e5c141bbc7860bc77fab6
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 04de228ba75e1b54c9a156546830fb83
   m_configObjects:
+    com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 6625e5e609c8c034dae3d6f1f99f92aa, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 113d3d348577a0748adea43f1a24a4dc, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: dc27c3c6aa365a94793bb60c9a123543, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: a178ba7287e4ca44a94d8920d4825def, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: f1034d185705d6e43bfe3e6c75f341d9, type: 3}

@@ -1187,13 +1187,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 1.63
   m_Radius: 0.32
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.1
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 1.09, z: 0}
+  m_Center: {x: 0, y: 0.93, z: 0}
 --- !u!114 &2637702556622861632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1208,10 +1208,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   maxHealth: 3
   currentHealth: 0
-  rayPos: {x: 24.184849, y: 0.07, z: 7.9989586}
+  rayPos: {x: 2.8, y: 1.15, z: -16.445}
   interactionDistance: 1.2
   speed: 7
+  groundRay: {x: 2.8, y: 1.783, z: -16.445}
+  groundDistance: 1
   rotationSmoothTime: 0.12
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 512
   cam: {fileID: 0}
   topClamp: 70
   bottomClamp: -30
