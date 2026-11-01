@@ -7,9 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance {  get; private set; }
     public int gems { get; private set; }
+    public int necesaryGems = 10;
 
     
-    public bool isInteract { get; private set; }
+    //public bool isInteract { get; private set; }
     public Action<int> onGemsChange;
     public Action<int> onLifeChange;
 
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     public bool HasEnoughGems()
     {
-        return gems >= 10;
+        return gems >= necesaryGems;
     }
 
    

@@ -319,11 +319,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4004970898476994205}
-  - component: {fileID: 6111188348413776902}
   - component: {fileID: 4180333744152512073}
   - component: {fileID: 8701101616849169259}
   - component: {fileID: 716318094733637611}
   - component: {fileID: 3476602855478417502}
+  - component: {fileID: 4323866187257048515}
   m_Layer: 3
   m_Name: Skeleton_Minion
   m_TagString: Enemy
@@ -358,28 +358,6 @@ Transform:
   - {fileID: 5045348601693437061}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!195 &6111188348413776902
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1943787346368825233}
-  m_Enabled: 1
-  m_AgentTypeID: -1372625422
-  m_Radius: 0.5
-  m_Speed: 5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2.06
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!136 &4180333744152512073
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -416,7 +394,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: dd9e77f9506e5dc449adad30864a581a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -466,10 +444,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BasicEnemiyMeele
   maxHealth: 3
   currentHealth: 0
+  agent: {fileID: 0}
   attackRange: 1.35
   detectionRange: 5
   currentState: 0
   attackFinished: 0
+--- !u!195 &4323866187257048515
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943787346368825233}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &2228300815098322199
 GameObject:
   m_ObjectHideFlags: 0

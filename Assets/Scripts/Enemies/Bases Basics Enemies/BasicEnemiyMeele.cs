@@ -1,13 +1,11 @@
 using UnityEngine;
+using UnityEngine.AI;
+
 
 
 public class BasicEnemiyMeele : Enemy
 {
    
-  
-
-
-
     // refs for animator
     private static  int attackHash = Animator.StringToHash("Attack");
     private static  int idleHash = Animator.StringToHash("Idle");
@@ -26,6 +24,7 @@ public class BasicEnemiyMeele : Enemy
     protected override void Awake()
     {
         base.Awake();
+       
         attackStrategy = new MeleeAttackStrategy();
      
         animator = GetComponent<Animator>();
@@ -34,6 +33,7 @@ public class BasicEnemiyMeele : Enemy
      protected override void Start()
     {
       base.Start();
+        
     }
 
 
@@ -144,7 +144,7 @@ public class BasicEnemiyMeele : Enemy
             player.position
         );
 
-     
+
         if (!attackFinished)
             return;
 
@@ -179,8 +179,6 @@ public class BasicEnemiyMeele : Enemy
             chaseHash,
             currentState == EnemyState.Chase
         );
-
-
         animator.SetBool(
             waitingHash,
             currentState == EnemyState.Waiting

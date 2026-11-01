@@ -15,7 +15,7 @@ public abstract class DamageHitbox : MonoBehaviour
         if (damageable != null)
         {
             DealDamage(damageable);
-        }
+        }else { Debug.Log("no se detecta IDamageable"); }
     }
 
     protected abstract void DealDamage(IDamageable target);

@@ -5,6 +5,7 @@ public class Character : MonoBehaviour, IDamageable
     [SerializeField] protected int maxHealth = 3;
     [SerializeField] protected int currentHealth;
     public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
     protected virtual void Awake()
     {
         currentHealth = maxHealth;
@@ -27,6 +28,14 @@ public class Character : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
+    public virtual void TakeHeal(int heal)
+    {
+        currentHealth += heal;
+        if(currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+    }
 }
 
     

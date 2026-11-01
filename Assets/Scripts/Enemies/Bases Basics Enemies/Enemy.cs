@@ -6,7 +6,7 @@ public class Enemy : Character
 {
     public event Action<Enemy> onEnemyDeath;
 
-    protected NavMeshAgent agent;
+    [SerializeField] protected NavMeshAgent agent;
     protected Transform player;
     protected IAttackStrategy attackStrategy;
 
@@ -31,7 +31,11 @@ public class Enemy : Character
     {
         base.Awake();
 
-        agent = GetComponent<NavMeshAgent>();
+        if(agent == null)
+        {
+           
+            agent = GetComponent<NavMeshAgent>();
+        }
     }
 
     protected virtual void Start()

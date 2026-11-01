@@ -4,12 +4,12 @@ public class RangedAttackStrategy : IAttackStrategy
 {
     public void Attack(Enemy enemy)
     {
-        BasicEnemieRanged enemyMeele = enemy as BasicEnemieRanged;
+        BasicEnemieRanged enemyRanged = enemy as BasicEnemieRanged;
 
-        if (enemyMeele == null)
+        if (enemyRanged == null)
             return;
 
-        enemyMeele.ExecuteRangeAttack();
+        enemyRanged.ExecuteRangeAttack();
        
         Debug.Log(enemy.name + " realiza un ataque a distancia");
     }

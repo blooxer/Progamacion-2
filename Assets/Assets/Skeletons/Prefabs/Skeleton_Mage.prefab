@@ -1791,7 +1791,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 7c75fb644316b854e837a091d55bd2be, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -1817,7 +1817,6 @@ MonoBehaviour:
   attackRange: 5
   detectionRange: 10
   currentState: 0
-  minimumAttackDistance: 3
   projectile: {fileID: 1673397457567500710, guid: ac5c40ba39f477047a318889f143e6b0, type: 3}
   projectileSpawnPoint: {fileID: 1408352217240059236}
   attackFinished: 0

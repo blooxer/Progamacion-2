@@ -46,14 +46,14 @@ Material:
     m_Floats:
     - ENUM_1BB38181: 1
     - Vector1_13E478A0: 20
-    - Vector1_469FF4D: 6
-    - Vector1_5DDB167B: 0.2
+    - Vector1_469FF4D: 1
+    - Vector1_5DDB167B: 1
     - Vector1_964BC046: 10
     - Vector1_97436D56: 0.5
-    - Vector1_AEAD50FF: 5
-    - Vector1_DBF011C: 3
+    - Vector1_AEAD50FF: 1
+    - Vector1_DBF011C: 1
     - Vector1_DE6ED6BB: 0
-    - Vector1_FBBAF542: 0.2
+    - Vector1_FBBAF542: 2
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4829978561886360753}
   - component: {fileID: 5128980564704258945}
   - component: {fileID: 5607525489715296550}
+  - component: {fileID: 2236480919563797467}
   m_Layer: 0
   m_Name: diamond_yellow
   m_TagString: Untagged
@@ -112,3 +113,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.9284611, y: 0.852231, z: 0.8966484}
   m_Center: {x: 0.012511253, y: -0.0659731, z: 0.01423043}
+--- !u!114 &2236480919563797467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551080988012953471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f943a51fe91c3654e9f633b14054648d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gems
