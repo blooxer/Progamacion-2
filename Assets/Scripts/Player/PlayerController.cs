@@ -1,6 +1,5 @@
 
 using System;
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,11 +17,12 @@ public class PlayerController : Character
     Animator animator;
 
     // interactions var
-    [SerializeField] Vector3 rayPos;
+  
     [SerializeField] float interactionDistance = 3f;
 
     //variables in player input values
     Vector2 currentaMovementInput;
+    [SerializeField] float upNumber;
     Vector3 currentMovement;
     bool isMouseOrKeyboard { get { return playerinput.PlayerController.enabled; } }
     bool isMovementPressed;
@@ -55,6 +55,7 @@ public class PlayerController : Character
 
     // interact var
     bool isInteract;
+    IInteractable interactable;
 
     // attack var
 
@@ -74,7 +75,13 @@ public class PlayerController : Character
     [SerializeField] float bottomClamp = -30.0f; // "How far in degrees can you move the camera down"
     float cameraAngleOverride = 0.0f;
     [SerializeField] GameObject cinemachineCameraTarget;
-
+    [Header("Audio variables")]
+    [SerializeField] AudioSource playerSource;
+    [SerializeField] AudioClip [] footsteptsClip;
+    [SerializeField] AudioClip  getDamageClip;
+    [SerializeField] AudioClip  swordWooshClip;
+    [SerializeField] float variationPitch = 0.1f;
+    [SerializeField] float originalPitch = 1f;
 
 
     protected override void Awake()
@@ -107,6 +114,8 @@ public class PlayerController : Character
     {
 
         currentHealth = maxHealth;
+        GameManager.Instance.UpdateLife(currentHealth);
+
         cinemachineCameraTarget = GameObject.FindGameObjectWithTag("CinemachineCameraTarget");
       
         _cinemachineTargetYaw = cinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -197,6 +206,7 @@ public class PlayerController : Character
         HandleGravity();
         HandleJump();
         handleAttack();
+        CheckInteractable();
         Move();
         handleAnimation();
        
@@ -219,16 +229,11 @@ public class PlayerController : Character
     void onInteractInput(InputAction.CallbackContext context)
     {
         isInteract = context.ReadValueAsButton();
-        if (!context.started) return; 
-        Ray ray = new Ray(rayPos, transform.forward); 
-        if (Physics.Raycast(ray, out RaycastHit hit, interactionDistance)) 
-        { 
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>(); 
-            if (interactable != null) 
-            { 
-                interactable.Interact(gameObject); 
-            } 
-        }
+        if (!context.started) return;
+
+        if (interactable == null)
+            return; 
+            interactable.Interact(gameObject); 
     }
     private void onJumpInput(InputAction.CallbackContext context)
     {
@@ -396,12 +401,15 @@ public class PlayerController : Character
     public override void TakeDamage(int dmg)
     {
         base.TakeDamage(dmg);
+        playerSource.pitch = originalPitch + UnityEngine.Random.Range(-variationPitch, variationPitch);
+        playerSource.PlayOneShot(getDamageClip);
         GameManager.Instance.UpdateLife(currentHealth);
 
     }
     public void Heal(int amount)
     {
-        currentHealth += amount;
+        base.TakeHeal(amount);
+        //currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         GameManager.Instance.UpdateLife(currentHealth);
@@ -412,8 +420,59 @@ public class PlayerController : Character
         GameManager.Instance.ChangeScene("LostScene");
     }
 
-  
+  void CheckInteractable()
+    {
+        interactable = null;
 
+        Vector3 origin =new Vector3(transform.position.x, transform.position.y + upNumber, transform.position.z);
+
+        Gizmos.color = Color.yellow;
+
+        Ray ray = new Ray(origin, transform.forward);
+
+        if (Physics.Raycast(
+            ray,
+            out RaycastHit hit,
+            interactionDistance,
+            Physics.DefaultRaycastLayers,
+            QueryTriggerInteraction.Collide))
+        {
+            interactable = hit.collider.GetComponentInParent<IInteractable>();
+
+            Debug.Log("Raycast impactó: " + hit.collider.name);
+
+            if (interactable != null)
+            {
+                Debug.Log("Objeto interactuable detectado");
+            }
+        }
+
+        Debug.DrawRay(
+            origin,
+            transform.forward * interactionDistance,
+            interactable != null ? Color.green : Color.red
+        );
+
+        GameManager.Instance.InteractableObjDetected(
+            interactable != null
+        );
+
+    }
+
+    public void PlayFootsteptSound()
+    {
+        if (footsteptsClip.Length == 0)
+            return;
+
+        int randomIndex = UnityEngine.Random.Range(0, footsteptsClip.Length);
+        playerSource.pitch = originalPitch + UnityEngine.Random.Range(-variationPitch, variationPitch);
+        playerSource.PlayOneShot(footsteptsClip[randomIndex]);
+    }
+    public void PlayAttackSound()
+    {
+        playerSource.pitch = originalPitch + UnityEngine.Random.Range(-variationPitch, variationPitch);
+        playerSource.PlayOneShot(swordWooshClip);
+    }
     public void AttackAnimationFinished()
     {
         isAttacking = false;
@@ -428,21 +487,7 @@ public class PlayerController : Character
     }
     private void OnDrawGizmos()
     {
-        // interact Ray
-        Gizmos.color = Color.yellow;
-        Vector3 origin = new Vector3(transform.position.x,rayPos.y,transform.position.z);
-        rayPos = origin;
-        Vector3 direction = transform.forward;
-    
-        Gizmos.DrawLine(
-            origin,
-            origin + direction * interactionDistance
-        );
-
-        Gizmos.DrawSphere(
-            origin + direction * interactionDistance,
-            0.05f
-        );
+        
 
         // ground Ray
         Gizmos.color = Color.red;
@@ -453,6 +498,17 @@ public class PlayerController : Character
         Gizmos.DrawLine(
             originGround,
             originGround + directionGround * groundDistance
+        );
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 origin = new Vector3(transform.position.x,transform.position.y + upNumber,transform.position.z);
+
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawRay(
+            origin,
+            transform.forward * interactionDistance
         );
     }
 

@@ -7,12 +7,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance {  get; private set; }
     public int gems { get; private set; }
+    public int actualLife { get; private set; }
+    public bool isInteractable { get; private set; }
+    public string sceneName { get; private set; }
+
     public int necesaryGems = 10;
 
     
     //public bool isInteract { get; private set; }
     public Action<int> onGemsChange;
     public Action<int> onLifeChange;
+    public event Action<bool> OnInteractable;
 
     private Dictionary<string, MonsterAbility> unlockedAbilities =
         new Dictionary<string, MonsterAbility>();
@@ -49,9 +54,18 @@ public class GameManager : MonoBehaviour
 
     public void UpdateLife(int life)
     {
-        onLifeChange?.Invoke(life);
+        actualLife = life;
+        onLifeChange?.Invoke(actualLife);
+       
     }
 
+    public void InteractableObjDetected(bool onInteractable)
+    {
+        if (isInteractable == onInteractable)
+            return;
+        isInteractable = onInteractable;
+        OnInteractable?.Invoke(onInteractable);
+    }
 
     public void UnlockAbility(MonsterAbility ability)
     {
@@ -84,6 +98,7 @@ public class GameManager : MonoBehaviour
         {
             ResetAll();
         }
+        GetSceneName(scene.name);
     }
 
     public void ChangeScene(String nameScene)
@@ -100,6 +115,12 @@ public class GameManager : MonoBehaviour
         onGemsChange?.Invoke(gems);
 
         Debug.Log("Progreso reiniciado.");
+
+    }
+    public void GetSceneName(string sceneNameVoid)
+    {
+        sceneNameVoid = SceneManager.GetActiveScene().name;
+        sceneName = sceneNameVoid;
 
     }
 }

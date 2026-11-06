@@ -3,19 +3,23 @@ using UnityEngine;
 
 public class Chest : MonoBehaviour, IInteractable
 {
-   
+   Animator animator;
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     //[SerializeField] bool playerInRange = false;
 
 
- 
+
 
     //private void OnTriggerEnter(Collider other)
     //{
-        
+
     //    if(other.CompareTag("Player") )
     //    {
     //        playerInRange = true;
-        
+
     //        Debug.Log("esta en rango");
     //    }
     //}
@@ -35,6 +39,7 @@ public class Chest : MonoBehaviour, IInteractable
         //    return;
 
         Debug.Log("Cofre interactuado");
+        animator.SetTrigger("IsOpened");
         if (!GameManager.Instance.HasAbility("DoubleJump"))
         {
             GameManager.Instance.UnlockAbility(

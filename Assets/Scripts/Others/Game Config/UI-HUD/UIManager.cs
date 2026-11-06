@@ -7,8 +7,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] TMP_Text textGems;
     [SerializeField] Image [] imageLife;
+    [SerializeField] GameObject panelInteractable;
 
-    [SerializeField] PlayerController player;
 
     void Start()
     {
@@ -17,15 +17,14 @@ public class UIManager : MonoBehaviour
         {
             GameManager.Instance.onGemsChange += UpdateGemText;
             GameManager.Instance.onLifeChange += UpdateLife;
-            if (player != null)
-            {
-                UpdateGemText(GameManager.Instance.gems);
-            }
-
-            if (imageLife != null && player != null)
-            {
-                UpdateLife(player.CurrentHealth);
-            }
+            GameManager.Instance.OnInteractable += ObjInteractableDetected;
+            
+            
+            UpdateGemText(GameManager.Instance.gems);
+            UpdateLife(GameManager.Instance.actualLife);
+            ObjInteractableDetected(GameManager.Instance.isInteractable);
+          
+          
         }
     }
 
@@ -48,7 +47,14 @@ public class UIManager : MonoBehaviour
         {
             GameManager.Instance.onGemsChange -= UpdateGemText;
             GameManager.Instance.onLifeChange -= UpdateLife;
+            GameManager.Instance.OnInteractable -= ObjInteractableDetected;
         }
     }
-    
+    private void ObjInteractableDetected(bool isActiveGo)
+    {
+        if (panelInteractable != null)
+        {
+            panelInteractable.SetActive(isActiveGo);
+        }
+    }
 }

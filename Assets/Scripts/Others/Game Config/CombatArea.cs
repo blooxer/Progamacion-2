@@ -5,6 +5,7 @@ public class CombatArea : MonoBehaviour
 {
     [SerializeField] List<Enemy> enemies = new List<Enemy>();
     [SerializeField] List<GameObject> barriers = new List<GameObject>();
+    [SerializeField] MusicController musiccontroller;
 
     bool combatStarted = false;
 
@@ -31,6 +32,7 @@ public class CombatArea : MonoBehaviour
     void StartCombat()
     {
         combatStarted = true;
+        musiccontroller.CombatMusic();
         Debug.Log("Enemigos restantes: " + enemies.Count);
 
         foreach (Enemy enemy in enemies)
@@ -46,6 +48,7 @@ public class CombatArea : MonoBehaviour
 
     void EndCombat()
     {
+        musiccontroller.ExplorationMusic();
         foreach (GameObject barrier in barriers)
         {
             barrier.SetActive(false);

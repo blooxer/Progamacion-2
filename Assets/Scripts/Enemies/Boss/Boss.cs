@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public class Boss : Enemy
 {
     // refs for animator
@@ -18,6 +19,8 @@ public class Boss : Enemy
 
     [Header("Boss References")]
     [SerializeField] GameObject chest;
+    [SerializeField] List<GameObject> activeGOWhenDies = new List<GameObject>();
+    [SerializeField] GameObject shield;
     [SerializeField] bool attackFinished;
 
 
@@ -29,6 +32,12 @@ public class Boss : Enemy
     [SerializeField, Min(0.01f)]
     float crystalHealInterval = 0.25f;
     float vulnerableTimer, crystalHealTimer;
+
+    [Header("Invoke Enemy Config")]
+    [SerializeField] List<Transform> spawnPoints = new List<Transform>();
+    [SerializeField] List<BasicEnemiyMeele> summonedEnemies = new List<BasicEnemiyMeele>();
+    [SerializeField] BasicEnemiyMeele prefabEnemie;
+    bool stateInitialized = false;
 
     enum BossState
     {
@@ -46,12 +55,19 @@ public class Boss : Enemy
         base.Start();
         animator = GetComponent<Animator>();
         ChangeBossState(BossState.Shielded);
-
+        foreach (GameObject GO in activeGOWhenDies)
+        {
+            if(GO != null)
+            {
+                GO.gameObject.SetActive(false);
+            }
+        }
         foreach (Crystals crystals in Crystals)
         {
             if (crystals != null)
                 crystals.OnCrystalsDamaged += OnCrystalBroken;
         }
+        SpawnEnemies();
     }
 
     protected override void Update()
@@ -63,6 +79,7 @@ public class Boss : Enemy
     {
         if (player == null)
             return;
+
 
         switch (currentBossState)
         {
@@ -87,6 +104,7 @@ public class Boss : Enemy
     {
         if (currentBossState == newState)
             return;
+        stateInitialized = true;
         currentBossState = newState;
 
         if(newState == BossState.Vulnerable)
@@ -97,12 +115,18 @@ public class Boss : Enemy
         {
             crystalHealTimer = 0;
         }
+        if(newState == BossState.Shielded)
+        {
+            SpawnEnemies();
+        }
+
         UpdateAnimator();
     }
 
+    #region STATES
     void Shielded()
     {
-
+        shield.SetActive(true);
 
 
 
@@ -113,6 +137,7 @@ public class Boss : Enemy
 
     void Vulnerable()
     {
+        shield.SetActive(false);
         vulnerableTimer += Time.deltaTime;
         if (vulnerableTimer >= vulnerableDuration)
             { ChangeBossState(BossState.Transition); }
@@ -145,7 +170,7 @@ public class Boss : Enemy
 
     void Defeated()
     {
-
+        OnDestroy();
         Debug.Log("el jefe fue vencido!");
     }
 
@@ -161,8 +186,12 @@ public class Boss : Enemy
         { chest.gameObject.SetActive(true); }
         else { chest.gameObject.SetActive(false); }
 
-      
+
     }
+
+    #endregion
+
+    #region CRYSTALS CONFIG
     private void OnCrystalBroken(Crystals crystals)
     {
         if (currentBossState != BossState.Shielded)
@@ -183,9 +212,58 @@ public class Boss : Enemy
     {
         return Crystals.Count > 0 && Crystals.TrueForAll(Crystals => Crystals != null && Crystals.CurrentHealth >= Crystals.MaxHealth);
     }
+    private void OnDestroy()
+    {
+            foreach (GameObject GO in activeGOWhenDies)
+            {
+                if (GO != null)
+                {
+                    GO.gameObject.SetActive(true);
+                }
+            }
+        foreach (Crystals crystals in Crystals)
+        {
+            if (crystals != null)
+               { crystals.OnCrystalsDamaged -= OnCrystalBroken;
+                crystals.gameObject.SetActive(false);
+            }
+           
+        }
+    }
+    #endregion
 
 
 
+    void SpawnEnemies()
+    {
+        if(prefabEnemie == null)
+        {
+            Debug.LogWarning("No se asigno un prefab enemigo");
+            return;
+        }
+
+        // limpiar referencias de enemigos muertos
+        summonedEnemies.RemoveAll(BasicEnemiyMeele => BasicEnemiyMeele == null);
+
+        //evitar acumular oleadas
+        if(summonedEnemies.Count > 0)
+        {
+            Debug.Log("quedan enemigos todavia");
+            return;
+        }
+
+        foreach(Transform spawns in spawnPoints)
+        {
+            if (spawnPoints == null)
+            {
+                return;
+            }
+            BasicEnemiyMeele newEnemy = Instantiate(prefabEnemie,spawns.position,spawns.rotation);
+            summonedEnemies.Add(newEnemy);
+        }
+
+        Debug.Log("el jefe invoco enemigos");
+    }
 
     public override void TakeDamage(int dmg)
     {
@@ -215,14 +293,5 @@ public class Boss : Enemy
         );
     }
 
-    private void OnDestroy()
-    {
-        foreach (Crystals crystals in Crystals)
-        {
-            if (crystals != null)
-                crystals.OnCrystalsDamaged -= OnCrystalBroken;
-           
-        }
-    }
 
 }

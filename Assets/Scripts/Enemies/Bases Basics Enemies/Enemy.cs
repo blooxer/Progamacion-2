@@ -21,7 +21,8 @@ public class Enemy : Character
         Idle,
         Chase,
         Attack,
-        Waiting
+        Waiting,
+        Hit
     }
 
     [Header("State")]
@@ -77,6 +78,9 @@ public class Enemy : Character
             case EnemyState.Waiting:
                 WaitingState();
                 break;
+            case EnemyState.Hit:
+                WaitingState();
+                break;
         }
     }
 
@@ -128,6 +132,12 @@ public class Enemy : Character
     {
         agent.isStopped = true;
     }
+    protected virtual void HitState()
+    {
+        agent.isStopped = true;
+    }
+
+
 
     protected void ChangeState(EnemyState newState)
     {

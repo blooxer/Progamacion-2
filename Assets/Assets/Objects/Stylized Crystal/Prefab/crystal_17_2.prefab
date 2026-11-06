@@ -106,7 +106,7 @@ Animator:
   m_GameObject: {fileID: 1000012006197310}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 4d7cc98ae5cab2947a8d9fa3c15e4fa8, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3fb5cec30e2ecc44b87669b1c1630dfc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -130,8 +130,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb79443f6b7d8cc4aa8400befcff88ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crystals
-  maxHealth: 2
+  maxHealth: 3
   currentHealth: 0
+  hurtbox: {fileID: 2034977335838782763}
+  material: {fileID: 2100000, guid: a0f91f34ae2cd6f4d80819a53b2c9b03, type: 2}
+  lightPoint: {fileID: 2020302225898264574}
 --- !u!65 &5168713460410937912
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -145,8 +148,8 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 384
-  m_LayerOverridePriority: 0
+    m_Bits: 904
+  m_LayerOverridePriority: -1
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
@@ -224,7 +227,7 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 0.8156863, g: 0.34901962, b: 0.6431373, a: 1}
-  m_Intensity: 8.1
+  m_Intensity: 8
   m_Range: 5.25
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -349,11 +352,11 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 1
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1

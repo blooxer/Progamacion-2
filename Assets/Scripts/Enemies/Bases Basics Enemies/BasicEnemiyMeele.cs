@@ -143,7 +143,7 @@ public class BasicEnemiyMeele : Enemy
             transform.position,
             player.position
         );
-
+        agent.isStopped = true;
 
         if (!attackFinished)
             return;

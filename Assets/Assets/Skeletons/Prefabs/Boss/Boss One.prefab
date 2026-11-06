@@ -346,18 +346,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569b9fe6b4b64c54bb00fb12f89b1aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss
-  maxHealth: 3
+  maxHealth: 5
   currentHealth: 0
   agent: {fileID: 0}
   attackRange: 1.35
   detectionRange: 5
   currentState: 0
   chest: {fileID: 0}
+  activeGOWhenDies:
+  - {fileID: 0}
+  - {fileID: 0}
+  shield: {fileID: 4029955071180931743}
   attackFinished: 0
   Crystals:
   - {fileID: 0}
   vulnerableDuration: 5
   crystalHealInterval: 0.25
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  summonedEnemies: []
+  prefabEnemie: {fileID: 897706555209627690, guid: d52d856ddcb8e6a499aa10154d1aff80, type: 3}
   currentBossState: 0
 --- !u!54 &8700621218722412850
 Rigidbody:
@@ -1036,14 +1046,13 @@ GameObject:
   - component: {fileID: 164933785889783684}
   - component: {fileID: 7575438604695975292}
   - component: {fileID: 511167907268722808}
-  - component: {fileID: 4502964079807851423}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7815664367085932100
 Transform:
   m_ObjectHideFlags: 0
@@ -35011,7 +35020,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6055
+  m_VersionIndex: 6058
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -35098,28 +35107,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4029955071180931743}
-  m_Mesh: {fileID: 0}
---- !u!64 &4502964079807851423
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4029955071180931743}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &4112076068291443345
 GameObject:

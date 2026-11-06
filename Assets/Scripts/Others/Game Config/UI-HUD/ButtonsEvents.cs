@@ -1,7 +1,5 @@
 using UnityEngine;
-
 using UnityEngine.EventSystems;
-
 using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
@@ -15,7 +13,7 @@ public class ButtonsEvents : ButtonsBase
     [SerializeField] float durationToFade;
     [SerializeField] TMP_Text btnText;
     [SerializeField] TMP_Text titleText;
-   
+    [SerializeField] UIAudio uiAudio;
     [SerializeField] Image imgBtn;
     
 
@@ -34,9 +32,12 @@ public class ButtonsEvents : ButtonsBase
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
-
-        transform.DOScale(tolScale, durationToSize)
+        if(this.transform != null)
+       {
+            transform.DOScale(tolScale, durationToSize)
             .SetEase(Ease.InOutSine);
+        }
+        uiAudio.PlayHover();
         if(imgBtn != null) 
         { imgBtn.DOFade(maxTransparency, durationToFade).SetEase(Ease.InOutSine).SetAutoKill(true); }
     }
@@ -44,8 +45,11 @@ public class ButtonsEvents : ButtonsBase
     public override void OnPointerExit(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
-        transform.DOScale(originalScale, durationToSize)
+        if (this.transform != null)
+        {
+            transform.DOScale(originalScale, durationToSize)
           .SetEase(Ease.InOutSine).SetAutoKill(true);
+        }
 
         if (imgBtn != null)
         { imgBtn.DOFade(initialTransparency, durationToFade).SetEase(Ease.InOutSine).SetAutoKill(true); }
@@ -53,20 +57,22 @@ public class ButtonsEvents : ButtonsBase
     public override void OnSelect(BaseEventData eventData)
     {
         base.OnSelect(eventData);
-        transform.DOScale(tolScale, durationToSize)
-        .SetEase(Ease.InOutSine).SetAutoKill(true);
+        if (this.transform != null)
+          { transform.DOScale(tolScale, durationToSize).SetEase(Ease.InOutSine).SetAutoKill(true); }
+        uiAudio.PlayHover();
     }
     public override void OnPointerClick(PointerEventData eventData)
     {
         base.OnPointerClick(eventData);
-        
 
-
-
-        transform.DOScale(originalScale, durationToSize)
+        if (this.transform != null)
+          {
+            transform.DOScale(originalScale, durationToSize)
           .SetEase(Ease.InOutSine).SetAutoKill(true);
+        }
         if (imgBtn != null)
         { imgBtn.DOFade(initialTransparency, durationToFade).SetEase(Ease.InOutSine).SetAutoKill(true); }
+        uiAudio.PlayClick();
     }
 }
 

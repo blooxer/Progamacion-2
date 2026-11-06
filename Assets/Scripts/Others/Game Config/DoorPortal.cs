@@ -1,13 +1,20 @@
 using UnityEngine;
 
-public class DoorPortal : MonoBehaviour
+public class DoorPortal : MonoBehaviour, IInteractable
 {
     public string sceneName;
-    private void OnTriggerEnter(Collider other)
+
+    public void Interact(GameObject interactor)
     {
-        if(other.CompareTag("Player") && GameManager.Instance.HasEnoughGems())
+        if (interactor.CompareTag("Player") && GameManager.Instance.HasEnoughGems())
         {
             GameManager.Instance.ChangeScene(sceneName);
-        }else { Debug.Log("Te faltan gemas!"); }
+        }
+        else { Debug.Log("Te faltan gemas!"); }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        
     }
 }
